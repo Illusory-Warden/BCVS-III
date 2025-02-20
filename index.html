@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVPCET-DPS Educational Outreach Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide-container {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            height: 90vh;
+            width: 90vw;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: width 0.5s ease;
+        }
+        .slide-content {
+            flex: 1;
+            overflow: hidden;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #e5e7eb;
+        }
+        .control-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .control-btn:hover:not(:disabled) {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+        .control-btn:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+        }
+        .slide-counter {
+            font-weight: 600;
+            color: #4b5563;
+            background: #f3f4f6;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+        }
+        .team-info {
+            position: absolute;
+            bottom: 5rem;
+            right: 1rem;
+            font-size: 0.7rem;
+            color: #6b7280;
+            text-align: right;
+            max-width: 15rem;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .content-wrapper {
+            max-height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .img-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .img-container:hover img {
+            transform: scale(1.03);
+        }
+        @media (max-height: 700px) {
+            .slide-content {
+                padding: 1rem;
+            }
+            .team-info {
+                display: none;
+            }
+        }
+        @media (max-width: 640px) {
+            .control-btn {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            .slide-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container bg-white">
+        <div class="progress-bar">
+            <div id="progress" class="progress" style="width: 0%;"></div>
+        </div>
+
+        <div id="slide-content" class="slide-content fade-in bg-white"></div>
+
+        <div class="controls">
+            <button id="prev-btn" class="control-btn">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <span id="slide-counter" class="slide-counter"></span>
+            <button id="next-btn" class="control-btn">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <div class="team-info">
+            <p>Created by: Anushka Moon, Vanshika Sathav, Rushi Daulatkar, Shubham Ramteke, Shreansh Nichkola, Sheryasi Jumbde</p>
+            <p>Date: 21-01-25</p>
+        </div>
+    </div>
+
+    <script>
+        const slides = [
+        {
+                type: 'title',
+                title: 'Learning Together',
+                subtitle: 'SVPCET - DPS Educational Outreach Initiative',
+                details: 'College Students Nurturing Young Minds in Rural Areas',
+                image: 'https://www.stvincentngp.edu.in/img/uploads/img_1626080830.jpg'
+            },
+            {
+                type: 'content',
+                title: 'Introduction',
+                content: `<p class="text-gray-700 mb-4">The SVPCET (St. Vincent Pallotti College of Engineering and Technology) has adopted a village initiative in which college students impart technical knowledge and skills to students from a local school in the village of Manapur, Nagpur.</p>
+                <p class="text-gray-700">The initiative focuses on delivering core technical programs and practical learning experiences, with an emphasis on fostering skills in various areas of technology.</p>`,
+                image: 'https://media.istockphoto.com/id/1736109860/vector/energetic-young-characters-give-high-fives-hands-meet-in-a-celebratory-clap-creating-a-burst.jpg?b=1&s=612x612&w=0&k=20&c=peuj4n2RL1vak5ubRI4cDyH_jsI5CZRQD3vX77LgWvE='
+            },
+            {
+                type: 'content',
+                title: 'Program Overview',
+                points: [
+                    '📍 Location: Daulatkar Public School, Manapur, Nagpur',
+                    '📅 Schedule: Every Saturday & Sunday',
+                    '🎯 Target: Students from Grades 7-10',
+                    '👨‍🏫 Leadership: 6 student coordinators from SVPCET',
+                    '🧠 Focus: Hands-on learning & practical applications'
+                ],
+                image: 'https://img.freepik.com/free-vector/businessmen-businesswoman-talking-desktop_1262-21452.jpg?semt=ais_hybrid'
+            },
+            {
+                type: 'content',
+                title: 'Core Technical Programs',
+                points: [
+                    '⚡ Electronics Fundamentals - Basic circuit design',
+                    '🌐 Internet of Things (IoT) - Sensor integration',
+                    '🤖 Arduino Programming - Coding with hardware',
+                    '🔬 Raspberry Pi Technology - Advanced computing',
+                    '🖨️ 3D Printing Technology - Modeling skills'
+                ],
+                image: 'https://img.freepik.com/premium-vector/colorful-illustration-spaceship-monitor-with-space-ship-background_1187092-41311.jpg?semt=ais_hybrid'
+            },
+            {
+                type: 'split',
+                title: 'Program Structure',
+                content: `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">Teaching Approach</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                                <span>Regular weekend sessions</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                                <span>Hands-on experimentation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                                <span>Project-based learning</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">Skills Taught</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                                <span>Circuit design basics</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                                <span>Programming logic</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                                <span>3D modeling techniques</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>`,
+                image: 'https://img.freepik.com/free-photo/smart-asian-elementary-school-girl-explaining-homework-assignment-touchscreen-presentation-young-female-student-pointing-interactive-whiteboard-classroom_662251-2038.jpg?w=826'
+            },
+            {
+                type: 'content',
+                title: 'Additional Initiatives',
+                points: [
+                    '🔬 STEM Workshops - Science and technology interest',
+                    '📈 Career Guidance - Educational path advising',
+                    '🗣️ Soft Skills - Communication and teamwork',
+                    '💡 Project Learning - Real-world applications'
+                ],
+                image: 'https://media.istockphoto.com/id/1394658823/vector/books-flat-vector-illustration-in-corporate-memphis-style.jpg?b=1&s=612x612&w=0&k=20&c=meFdjIL5Qw0F4eV4NneMgeBzy-eE5bYZrDQhUtVTHAI='
+            },
+            {
+                type: 'split',
+                title: 'Impact Assessment',
+                content: `<div class="space-y-3">
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <h3 class="text-base font-semibold text-blue-700 mb-1">Skills Development</h3>
+                        <p class="text-sm">Significant improvement in technical understanding and application skills.</p>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg">
+                        <h3 class="text-base font-semibold text-green-700 mb-1">Project Completion</h3>
+                        <p class="text-sm">Multiple successful student projects demonstrating applied knowledge.</p>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded-lg">
+                        <h3 class="text-base font-semibold text-purple-700 mb-1">Community Engagement</h3>
+                        <p class="text-sm">Increased interest in STEM education within the rural community.</p>
+                    </div>
+                </div>`,
+                image: 'https://img.freepik.com/free-photo/students-knowing-right-answer_23-2149038403.jpg?w=826'
+            },
+            {
+                type: 'content',
+                title: 'Future Goals',
+                points: [
+                    '📢 Expand program to additional rural schools',
+                    '🏫 Establish permanent technical laboratory',
+                    '🌐 Develop online learning platform',
+                    '🤝 Form industry partnerships for internships'
+                ],
+                image: 'https://media.istockphoto.com/id/1495022733/vector/image-of-a-student-challenging-an-examination-war.jpg?b=1&s=612x612&w=0&k=20&c=Ch86ZMA3XugpWOvh5wtE8doEiUPXXZcxg9fIju6ny2Q='
+            },
+            {
+                type: 'end',
+                title: 'Thank You',
+                subtitle: 'St. Vincent Pallotti College of Engineering and Technology',
+                details: 'Transforming Rural Education Through Technology',
+                image: 'https://www.stvincentngp.edu.in/img/uploads/img_1626080830.jpg',
+                download: true // Flag to show the download button
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function updateSlide() {
+            const slideContent = document.getElementById('slide-content');
+            const progress = document.getElementById('progress');
+            const slideCounter = document.getElementById('slide-counter');
+            
+            slideContent.classList.remove('fade-in');
+            void slideContent.offsetWidth; // Force reflow
+            slideContent.classList.add('fade-in');
+
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            progress.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+
+            const slide = slides[currentSlide];
+            
+            if (slide.type === 'title' || slide.type === 'end') {
+                slideContent.innerHTML = 
+                    `<div class='flex flex-col items-center justify-center h-full text-center px-4'>
+                        <div class="img-container w-64 h-36 md:w-80 md:h-44 mb-6">
+                            <img src="${slide.image}" alt="Slide Image">
+                        </div>
+                        <h1 class='text-3xl md:text-4xl font-bold text-blue-700 mb-3'>${slide.title}</h1>
+                        <h2 class='text-xl md:text-2xl text-gray-700 mb-4'>${slide.subtitle}</h2>
+                        <p class='text-base md:text-lg text-gray-600 max-w-2xl'>${slide.details}</p>
+                        ${slide.download ? `<a href="BCVS REPORT.docx" download="SVPCET_DPS_Program_Details" class="mt-6 inline-block px-6 py-2 bg-blue-600 text-white rounded-md text-lg font-semibold transition-all hover:bg-blue-700">Download Word Document</a>` : ''}
+                    </div>`;
+            } else if (slide.type === 'split') {
+                slideContent.innerHTML = 
+                    `<div class='h-full flex flex-col'>
+                        <h2 class='text-2xl md:text-3xl font-bold text-blue-700 mb-4'>${slide.title}</h2>
+                        <div class='grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow'>
+                            <div class="img-container h-32 md:h-48">
+                                <img src="${slide.image}" alt="Slide Image">
+                            </div>
+                            <div class="flex items-center">
+                                ${slide.content}
+                            </div>
+                        </div>
+                    </div>`;
+            } else if (slide.content) {
+                slideContent.innerHTML = 
+                    `<div class='h-full flex flex-col'>
+                        <h2 class='text-2xl md:text-3xl font-bold text-blue-700 mb-4'>${slide.title}</h2>
+                        <div class="img-container h-32 md:h-40 mb-4">
+                            <img src="${slide.image}" alt="Slide Image">
+                        </div>
+                        <div class='space-y-3 flex-grow'>
+                            ${slide.content}
+                        </div>
+                    </div>`;
+            } else {
+                slideContent.innerHTML = 
+                    `<div class='h-full flex flex-col'>
+                        <h2 class='text-2xl md:text-3xl font-bold text-blue-700 mb-4'>${slide.title}</h2>
+                        <div class="img-container h-32 md:h-40 mb-4">
+                            <img src="${slide.image}" alt="Slide Image">
+                        </div>
+                        <ul class='space-y-2 md:space-y-3 flex-grow'>
+                            ${slide.points.map(point => `<li class='flex items-start'>
+                                <span class='w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2'></span>
+                                <span class='text-gray-700 text-sm md:text-base'>${point}</span>
+                            </li>`).join('')}
+                        </ul>
+                    </div>`;
+            }
+
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === slides.length - 1;
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        });
+
+        updateSlide(); // Initialize the first slide
+    </script>
+</body>
+</html>
